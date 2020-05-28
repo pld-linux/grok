@@ -19,9 +19,8 @@ BuildRequires:	gperf
 BuildRequires:	libevent-devel
 BuildRequires:	pcre-devel >= 7.6
 BuildRequires:	tokyocabinet-devel >= 1.4.9
-Requires:	libevent
 Requires:	pcre >= 7.6
-Requires:	tokyocabinet >= 1.4.9
+Requires:	tokyocabinet-libs >= 1.4.9
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -61,7 +60,9 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},%{_includedir},%{_datadir}/grok/patterns}
 
 install grok discogrok $RPM_BUILD_ROOT%{_bindir}
-install libgrok.so $RPM_BUILD_ROOT%{_libdir}
+install libgrok.so $RPM_BUILD_ROOT%{_libdir}/libgrok.so.1.0
+ln -sf libgrok.so.1.0 $RPM_BUILD_ROOT%{_libdir}/libgrok.so.1
+ln -sf libgrok.so.1.0 $RPM_BUILD_ROOT%{_libdir}/libgrok.so
 cp -p patterns/base $RPM_BUILD_ROOT%{_datadir}/grok/patterns/base
 cp -p grok.h grok_pattern.h grok_capture.h grok_capture_xdr.h grok_match.h grok_logging.h grok_discover.h grok_version.h \
 	$RPM_BUILD_ROOT%{_includedir}
@@ -76,9 +77,11 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/discogrok
 %attr(755,root,root) %{_bindir}/grok
-%attr(755,root,root) %{_libdir}/libgrok.so
+%attr(755,root,root) %{_libdir}/libgrok.so.1.0
+%attr(755,root,root) %ghost %{_libdir}/libgrok.so.1
 %{_datadir}/grok
 
 %files devel
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libgrok.so
 %{_includedir}/grok*.h
