@@ -12,6 +12,7 @@ Group:		Libaries
 Source0:	https://github.com/jordansissel/grok/archive/%{gitref}/%{name}-%{snap}.tar.gz
 # Source0-md5:	1d09b3aa6ebac202680227faa26e742e
 Patch0:		%{name}-gperf.patch
+Patch1:		%{name}-bison.patch
 URL:		https://github.com/jordansissel/grok
 BuildRequires:	bison
 BuildRequires:	flex
@@ -48,6 +49,7 @@ Pliki nagłówkowe do tworzenia programów z użyciem biblioteki grok.
 %prep
 %setup -q -n %{name}-%{gitref}
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{__make} \
