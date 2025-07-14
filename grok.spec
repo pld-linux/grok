@@ -48,8 +48,8 @@ Pliki nagłówkowe do tworzenia programów z użyciem biblioteki grok.
 
 %prep
 %setup -q -n %{name}-%{gitref}
-%patch0 -p1
-%patch1 -p1
+%patch -P0 -p1
+%patch -P1 -p1
 
 %build
 %{__make} \
