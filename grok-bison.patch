@@ -1,6 +1,6 @@
---- grok-a52f42b1fa359db2145a70216ec5b4ef43d57b5c/conf.y.orig	2020-06-02 17:16:54.505830255 +0200
-+++ grok-a52f42b1fa359db2145a70216ec5b4ef43d57b5c/conf.y	2020-06-02 18:34:09.336057711 +0200
-@@ -2,10 +2,9 @@
+--- grok-a52f42b1fa359db2145a70216ec5b4ef43d57b5c/conf.y.orig	2017-07-20 23:49:31.000000000 +0200
++++ grok-a52f42b1fa359db2145a70216ec5b4ef43d57b5c/conf.y	2025-10-18 20:38:09.713327356 +0200
+@@ -2,12 +2,11 @@
  #include <stdio.h>
  #include <string.h>
  
@@ -12,7 +12,9 @@
  
 -int yylineno;
  void yyerror (YYLTYPE *loc, struct config *conf, char const *s) {
-@@ -49,9 +49,9 @@
+   fprintf (stderr, "Syntax error: %s\n", s);
+ }
+@@ -49,9 +48,9 @@
  
  %token '{' '}' ';' ':' '\n'
  
@@ -24,7 +26,7 @@
  %locations
  
  %start config
-@@ -128,7 +128,7 @@
+@@ -128,7 +127,7 @@
             | match_block_statement
  
  match_block_statement: /* empty */
