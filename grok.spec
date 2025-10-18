@@ -1,11 +1,12 @@
 Summary:	A powerful pattern matching system for parsing and processing text
 Summary(pl.UTF-8):	Potężny system dopasowywania wzorców do analizy i przetwarzania tekstu
 Name:		grok
+%define	rel	1
 %define	snap	20170721
 %define	gitref	a52f42b1fa359db2145a70216ec5b4ef43d57b5c
 # git history shows 1.2011xxxx, then 0.9.y... use 0 for now
 Version:	0
-Release:	0.%{snap}.1
+Release:	0.%{snap}.%{rel}
 License:	BSD
 Group:		Libaries
 #Source0Download: https://github.com/jordansissel/grok/releases
