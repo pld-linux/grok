@@ -1,0 +1,58 @@
+--- grok-a52f42b1fa359db2145a70216ec5b4ef43d57b5c/grokre.c~	2017-07-20 23:49:31.000000000 +0200
++++ grok-a52f42b1fa359db2145a70216ec5b4ef43d57b5c/grokre.c	2025-10-18 23:23:17.219993928 +0200
+@@ -12,8 +12,8 @@
+ 
+ /* global, static variables */
+ 
+-#define CAPTURE_ID_LEN 5
+-#define CAPTURE_FORMAT "_%04x"
++#define _CAPTURE_ID_LEN 5
++#define _CAPTURE_FORMAT "_%04x"
+ 
+ /* internal functions */
+ static char *grok_pattern_expand(grok_t *grok); //, int offset, int length);
+@@ -166,7 +166,7 @@
+   int full_len = -1;
+   int full_size = -1;
+   char *full_pattern = NULL;
+-  char capture_id_str[CAPTURE_ID_LEN + 1];
++  char capture_id_str[_CAPTURE_ID_LEN + 1];
+ 
+   const char *patname = NULL;
+ 
+@@ -244,7 +244,7 @@
+       pcre_get_substring(full_pattern, capture_vector, g_pattern_num_captures,
+                          g_cap_subname, &subname);
+ 
+-      snprintf(capture_id_str, CAPTURE_ID_LEN + 1, CAPTURE_FORMAT, capture_id);
++      snprintf(capture_id_str, _CAPTURE_ID_LEN + 1, _CAPTURE_FORMAT, capture_id);
+ 
+       /* Add this capture to the list of captures */
+       gct->id = capture_id;
+@@ -283,7 +283,7 @@
+       /* Insert the capture id into (?<FOO>) */
+       substr_replace(&full_pattern, &full_len, &full_size,
+                      start + 3, 0,
+-                     capture_id_str, CAPTURE_ID_LEN);
++                     capture_id_str, _CAPTURE_ID_LEN);
+       grok_log(grok, LOG_REGEXPAND, "% 20s: %.*s", "add capture id",
+                full_len, full_pattern);
+ 
+@@ -291,7 +291,7 @@
+       /* Insert the pattern into (?<FOO>pattern) */
+       /* 3 = '(?<', 4 = strlen(capture_id_str), 1 = ")" */
+       substr_replace(&full_pattern, &full_len, &full_size, 
+-                     start + 3 + CAPTURE_ID_LEN + 1, 0, 
++                     start + 3 + _CAPTURE_ID_LEN + 1, 0, 
+                      pattern_regex, regexp_len);
+       grok_log(grok, LOG_REGEXPAND, ":: Inserted: %.*s", regexp_len,
+                pattern_regex);
+@@ -403,7 +403,7 @@
+   for (i = 0; i < nametable_size; i++) {
+     offset = i * nametable_entrysize;
+     stringnum = (nametable[offset] << 8) + nametable[offset + 1];
+-    sscanf(nametable + offset + 2, CAPTURE_FORMAT, &capture_id);
++    sscanf(nametable + offset + 2, _CAPTURE_FORMAT, &capture_id);
+     grok_log(grok, LOG_COMPILE, "Studying capture %d", capture_id);
+     gct = (grok_capture *)grok_capture_get_by_id(grok, capture_id);
+     assert(gct != NULL);

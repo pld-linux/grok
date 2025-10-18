@@ -1,7 +1,7 @@
 Summary:	A powerful pattern matching system for parsing and processing text
 Summary(pl.UTF-8):	Potężny system dopasowywania wzorców do analizy i przetwarzania tekstu
 Name:		grok
-%define	rel	3
+%define	rel	4
 %define	snap	20170721
 %define	gitref	a52f42b1fa359db2145a70216ec5b4ef43d57b5c
 # git history shows 1.2011xxxx, then 0.9.y... use 0 for now
@@ -15,6 +15,7 @@ Source0:	https://github.com/jordansissel/grok/archive/%{gitref}/%{name}-%{snap}.
 Patch0:		%{name}-gperf.patch
 Patch1:		%{name}-bison.patch
 Patch2:		missing-decls.patch
+Patch3:		local-macros.patch
 URL:		https://github.com/jordansissel/grok
 BuildRequires:	bison
 BuildRequires:	flex
@@ -54,6 +55,7 @@ Pliki nagłówkowe do tworzenia programów z użyciem biblioteki grok.
 %patch -P0 -p1
 %patch -P1 -p1
 %patch -P2 -p1
+%patch -P3 -p1
 
 %build
 %{__make} \
