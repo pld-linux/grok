@@ -1,0 +1,21 @@
+--- grok-a52f42b1fa359db2145a70216ec5b4ef43d57b5c/grok_config.h~	2017-07-20 23:49:31.000000000 +0200
++++ grok-a52f42b1fa359db2145a70216ec5b4ef43d57b5c/grok_config.h	2025-10-18 21:23:41.833327351 +0200
+@@ -20,6 +20,7 @@
+ };
+ 
+ void conf_init(struct config *conf);
++void conf_new_patternfile(struct config *conf);
+ void conf_new_program(struct config *conf);
+ void conf_new_input(struct config *conf);
+ void conf_new_input_process(struct config *conf, char *cmd);
+--- grok-a52f42b1fa359db2145a70216ec5b4ef43d57b5c/conf.y~	2025-10-18 20:40:34.000000000 +0200
++++ grok-a52f42b1fa359db2145a70216ec5b4ef43d57b5c/conf.y	2025-10-18 21:22:02.429994015 +0200
+@@ -11,6 +11,8 @@
+   fprintf (stderr, "Syntax error: %s\n", s);
+ }
+ 
++int yylex (YYSTYPE *lvalp, YYLTYPE *llocp);
++
+ #define DEBUGMASK(val) ((val > 0) ? ~0 : 0)
+ %}
+ 

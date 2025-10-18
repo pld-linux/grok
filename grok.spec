@@ -1,7 +1,7 @@
 Summary:	A powerful pattern matching system for parsing and processing text
 Summary(pl.UTF-8):	Potężny system dopasowywania wzorców do analizy i przetwarzania tekstu
 Name:		grok
-%define	rel	2
+%define	rel	3
 %define	snap	20170721
 %define	gitref	a52f42b1fa359db2145a70216ec5b4ef43d57b5c
 # git history shows 1.2011xxxx, then 0.9.y... use 0 for now
@@ -14,11 +14,13 @@ Source0:	https://github.com/jordansissel/grok/archive/%{gitref}/%{name}-%{snap}.
 # Source0-md5:	1d09b3aa6ebac202680227faa26e742e
 Patch0:		%{name}-gperf.patch
 Patch1:		%{name}-bison.patch
+Patch2:		missing-decls.patch
 URL:		https://github.com/jordansissel/grok
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	gperf
 BuildRequires:	libevent-devel
+BuildRequires:	libtirpc-devel
 BuildRequires:	pcre-devel >= 7.6
 BuildRequires:	tokyocabinet-devel >= 1.4.9
 Requires:	pcre >= 7.6
@@ -51,19 +53,20 @@ Pliki nagłówkowe do tworzenia programów z użyciem biblioteki grok.
 %setup -q -n %{name}-%{gitref}
 %patch -P0 -p1
 %patch -P1 -p1
+%patch -P2 -p1
 
 %build
 %{__make} \
 	CC="%{__cc}" \
-	CFLAGS="%{rpmcflags} -fPIC -pipe -I. -DPLATFORM_GNULinux" \
-	LDFLAGS="%{rpmldflags} -rdynamic -lpcre -levent -ltokyocabinet -ldl"
+	CFLAGS="%{rpmcflags} -fPIC -pipe -I. -DPLATFORM_GNULinux -I/usr/include/tirpc" \
+	LDFLAGS="%{rpmldflags} -rdynamic -lpcre -levent -ltokyocabinet -ldl -ltirpc"
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_libdir},%{_includedir},%{_datadir}/grok/patterns}
 
-install grok discogrok $RPM_BUILD_ROOT%{_bindir}
-install libgrok.so $RPM_BUILD_ROOT%{_libdir}/libgrok.so.1.0
+cp -p grok discogrok $RPM_BUILD_ROOT%{_bindir}
+cp -p libgrok.so $RPM_BUILD_ROOT%{_libdir}/libgrok.so.1.0
 ln -sf libgrok.so.1.0 $RPM_BUILD_ROOT%{_libdir}/libgrok.so.1
 ln -sf libgrok.so.1.0 $RPM_BUILD_ROOT%{_libdir}/libgrok.so
 cp -p patterns/base $RPM_BUILD_ROOT%{_datadir}/grok/patterns/base
@@ -80,11 +83,11 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/discogrok
 %attr(755,root,root) %{_bindir}/grok
-%attr(755,root,root) %{_libdir}/libgrok.so.1.0
-%attr(755,root,root) %ghost %{_libdir}/libgrok.so.1
+%{_libdir}/libgrok.so.1.0
+%ghost %{_libdir}/libgrok.so.1
 %{_datadir}/grok
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libgrok.so
+%{_libdir}/libgrok.so
 %{_includedir}/grok*.h
